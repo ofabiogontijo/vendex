@@ -30,8 +30,12 @@ public class User {
 
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "user_id")
     private List<Order> orders;
+
+    public static User of(User input) {
+        return new User(null, input.getName(), input.getEmail(), input.getPassword(), List.of());
+    }
 
 }
