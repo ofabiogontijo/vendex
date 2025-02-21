@@ -9,16 +9,17 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PUBLIC;
 
 @Entity
 @Getter
 @EqualsAndHashCode
 @Table(name = "orders")
-@NoArgsConstructor(access = PRIVATE)
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PUBLIC)
+@AllArgsConstructor(access = PUBLIC)
 public class Order {
 
     @Id
@@ -39,13 +40,28 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Order of(Order input, User user) {
-        return new Order(
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items;
+
+    public static Order of(User user, List<OrderItem> orderItems) {
+        Order order = new Order(
                 null,
                 LocalDateTime.now(),
-                input.getStatus().PENDING,
-                input.getTotalAmount(),
-                user);
+                OrderStatusEnum.PENDING,
+                BigDecimal.ZERO,
+                user,
+                orderItems
+        );
+
+        orderItems.forEach(item -> item.associateWithOrder(order));
+        order.calculateTotalAmount();
+        return order;
+    }
+
+    private void calculateTotalAmount() {
+        this.totalAmount = items.stream()
+                .map(OrderItem::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

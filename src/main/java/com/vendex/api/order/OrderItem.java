@@ -1,5 +1,6 @@
 package com.vendex.api.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vendex.api.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @EqualsAndHashCode
 @Table(name = "order_item")
 @NoArgsConstructor(access = PRIVATE)
-@AllArgsConstructor(staticName = "of")
+@AllArgsConstructor
 public class OrderItem {
 
     @Id
@@ -32,19 +33,21 @@ public class OrderItem {
     private BigDecimal subtotal;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    // Método para calcular o subtotal
-    public BigDecimal getSubtotal() {
-        if (quantity != null && unitPrice != null) {
-            return unitPrice.multiply(BigDecimal.valueOf(quantity));
-        }
-        return BigDecimal.ZERO;
+    public static OrderItem of(Integer quantity, Product product) {
+        BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
+        return new OrderItem(null, quantity, product.getPrice(), subtotal, null, product);
+    }
+
+    public void associateWithOrder(Order order) {
+        this.order = order;
     }
 
 }
