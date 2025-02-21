@@ -29,13 +29,18 @@ public class Payment {
 
     private BigDecimal amount;
 
-    private PaymentStatusEnum status;
+    private String status;
 
     @Column(name = "payment_method")
-    private PaymentStatusEnum paymentMethod;
+    private String paymentMethod;
 
-    @OneToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
+
+    public static Payment of(LocalDateTime paymentDate, BigDecimal amount, String status, String paymentMethod, Order order) {
+        return new Payment(null, paymentDate, amount, status, paymentMethod, order);
+    }
+
 
 }

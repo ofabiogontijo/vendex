@@ -1,7 +1,5 @@
 package com.vendex.api.order;
 
-import com.vendex.api.payment.Payment;
-import com.vendex.api.shipment.Shipment;
 import com.vendex.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -31,6 +28,8 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OrderStatusEnum status;
 
     @Column(name = "total_amount")
@@ -40,14 +39,13 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private List<OrderItem> items;
-
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Payment payment;
-
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Shipment shipment;
+    public static Order of(Order input, User user) {
+        return new Order(
+                null,
+                LocalDateTime.now(),
+                input.getStatus().PENDING,
+                input.getTotalAmount(),
+                user);
+    }
 
 }

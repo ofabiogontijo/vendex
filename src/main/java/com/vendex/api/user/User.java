@@ -1,13 +1,14 @@
 package com.vendex.api.user;
 
-import com.vendex.api.order.Order;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -30,12 +31,8 @@ public class User {
 
     private String password;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<Order> orders;
-
     public static User of(User input) {
-        return new User(null, input.getName(), input.getEmail(), input.getPassword(), List.of());
+        return new User(null, input.getName(), input.getEmail(), input.getPassword());
     }
 
 }
