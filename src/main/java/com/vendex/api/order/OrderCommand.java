@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.vendex.api.core.VendexBeanUtils.copyNonNullProperties;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -23,11 +25,12 @@ public class OrderCommand {
 
     private final ProductQuery productQuery;
 
-    public Order create(UUID userId, Order orderRequest) {
+    private final OrderQuery query;
+
+    public Order create(UUID userId, Order order) {
         User user = userQuery.findById(userId);
-        List<OrderItem> orderItems = createOrderItems(orderRequest);
-        Order newOrder = Order.of(user, orderItems);
-        return repository.save(newOrder);
+        List<OrderItem> orderItems = createOrderItems(order);
+        return repository.save(Order.of(user, orderItems, order.getStatus()));
     }
 
     private List<OrderItem> createOrderItems(Order orderRequest) {
@@ -37,6 +40,13 @@ public class OrderCommand {
                     return OrderItem.of(item.getQuantity(), product);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Order updateOrder(UUID id, Order orderRequest) {
+        Order orderPersisted = query.findById(id);
+        copyNonNullProperties(orderRequest, orderPersisted, "id", "user", "items");
+        orderPersisted.calculateTotalAmount();
+        return repository.save(orderPersisted);
     }
 
 }

@@ -43,22 +43,21 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
 
-    public static Order of(User user, List<OrderItem> orderItems) {
+    public static Order of(User user, List<OrderItem> orderItems, OrderStatusEnum status) {
         Order order = new Order(
                 null,
                 LocalDateTime.now(),
-                OrderStatusEnum.PENDING,
+                status,
                 BigDecimal.ZERO,
                 user,
                 orderItems
         );
-
         orderItems.forEach(item -> item.associateWithOrder(order));
         order.calculateTotalAmount();
         return order;
     }
 
-    private void calculateTotalAmount() {
+    void calculateTotalAmount() {
         this.totalAmount = items.stream()
                 .map(OrderItem::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
