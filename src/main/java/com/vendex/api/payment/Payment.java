@@ -1,5 +1,6 @@
 package com.vendex.api.payment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vendex.api.order.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,18 +30,28 @@ public class Payment {
 
     private BigDecimal amount;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatusEnum status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
-    private String paymentMethod;
+    private PaymentMethodEnum paymentMethod;
 
-    @ManyToOne
+    @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    public static Payment of(LocalDateTime paymentDate, BigDecimal amount, String status, String paymentMethod, Order order) {
-        return new Payment(null, paymentDate, amount, status, paymentMethod, order);
+    public void approve() {
+        this.status = PaymentStatusEnum.COMPLETED;
     }
 
+    public void fail() {
+        this.status = PaymentStatusEnum.FAILED;
+    }
+
+    public static Payment of(LocalDateTime paymentDate, BigDecimal amount, PaymentStatusEnum status, PaymentMethodEnum paymentMethod, Order order) {
+        return new Payment(null, paymentDate, amount, status, paymentMethod, order);
+    }
 
 }

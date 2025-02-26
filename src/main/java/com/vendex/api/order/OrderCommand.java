@@ -49,4 +49,9 @@ public class OrderCommand {
         return repository.save(orderPersisted);
     }
 
+    public void markOrderAsPaid(Order order) {
+        order.markAsPaid();
+        repository.save(order);
+    }
+
 }

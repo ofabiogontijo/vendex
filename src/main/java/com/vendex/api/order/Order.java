@@ -1,5 +1,7 @@
 package com.vendex.api.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vendex.api.payment.Payment;
 import com.vendex.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,6 +45,17 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
 
+    @OneToOne(mappedBy = "order")
+    private Payment payment;
+
+    public void markAsPaid() {
+        this.status = OrderStatusEnum.PAID;
+    }
+
+    public boolean hasPayment() {
+        return this.payment != null;
+    }
+
     public static Order of(User user, List<OrderItem> orderItems, OrderStatusEnum status) {
         Order order = new Order(
                 null,
@@ -50,7 +63,7 @@ public class Order {
                 status,
                 BigDecimal.ZERO,
                 user,
-                orderItems
+                orderItems, null
         );
         orderItems.forEach(item -> item.associateWithOrder(order));
         order.calculateTotalAmount();
