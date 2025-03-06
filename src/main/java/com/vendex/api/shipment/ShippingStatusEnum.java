@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public enum ShippingStatusEnum {
 
-    PROCESSING, SHIPPED, DELIVERED
+	PROCESSING, SHIPPED, DELIVERED
 
 }

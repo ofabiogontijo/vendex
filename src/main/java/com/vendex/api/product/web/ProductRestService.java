@@ -14,12 +14,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping(value = "/v1/products", produces = MediaType.APPLICATION_JSON_VALUE)
 class ProductRestService {
 
-    private final ProductCommand command;
+	private final ProductCommand command;
 
-    @PostMapping
-    @ResponseStatus(CREATED)
-    Product create(@Valid @RequestBody Product product) {
-        return command.create(product);
-    }
+	@PostMapping
+	@ResponseStatus(CREATED)
+	Product create(@Valid @RequestBody Product product) {
+		return command.create(product);
+	}
 
 }

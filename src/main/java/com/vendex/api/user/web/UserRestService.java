@@ -22,33 +22,32 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping(value = "/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
 class UserRestService {
 
-    private final UserCommand command;
+	private final UserCommand command;
 
-    private final UserQuery query;
+	private final UserQuery query;
 
-    @PostMapping
-    @ResponseStatus(CREATED)
-    User create(@Valid @RequestBody User user) {
-        return command.create(User.of(user));
-    }
+	@PostMapping
+	@ResponseStatus(CREATED)
+	User create(@Valid @RequestBody User user) {
+		return command.create(User.of(user));
+	}
 
-    @GetMapping
-    @ResponseStatus(OK)
-    Page<User> findAll(
-            @PageableDefault(direction = DESC, value = 20) final Pageable pageable) {
-        return query.findAll(pageable);
-    }
+	@GetMapping
+	@ResponseStatus(OK)
+	Page<User> findAll(@PageableDefault(direction = DESC, value = 20) final Pageable pageable) {
+		return query.findAll(pageable);
+	}
 
-    @GetMapping("/{id}")
-    @ResponseStatus(OK)
-    User findById(@PathVariable UUID id) {
-        return query.findById(id);
-    }
+	@GetMapping("/{id}")
+	@ResponseStatus(OK)
+	User findById(@PathVariable UUID id) {
+		return query.findById(id);
+	}
 
-    @PutMapping("/{id}")
-    @ResponseStatus(OK)
-    User update(@PathVariable UUID id, @Valid @RequestBody User user) {
-        return command.update(id, user);
-    }
+	@PutMapping("/{id}")
+	@ResponseStatus(OK)
+	User update(@PathVariable UUID id, @Valid @RequestBody User user) {
+		return command.update(id, user);
+	}
 
 }

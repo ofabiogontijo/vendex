@@ -19,39 +19,37 @@ import static com.vendex.api.core.VendexBeanUtils.copyNonNullProperties;
 @Slf4j
 public class OrderCommand {
 
-    private final OrderRepository repository;
+	private final OrderRepository repository;
 
-    private final UserQuery userQuery;
+	private final UserQuery userQuery;
 
-    private final ProductQuery productQuery;
+	private final ProductQuery productQuery;
 
-    private final OrderQuery query;
+	private final OrderQuery query;
 
-    public Order create(UUID userId, Order order) {
-        User user = userQuery.findById(userId);
-        List<OrderItem> orderItems = createOrderItems(order);
-        return repository.save(Order.of(user, orderItems, order.getStatus()));
-    }
+	public Order create(UUID userId, Order order) {
+		User user = userQuery.findById(userId);
+		List<OrderItem> orderItems = createOrderItems(order);
+		return repository.save(Order.of(user, orderItems, order.getStatus()));
+	}
 
-    private List<OrderItem> createOrderItems(Order orderRequest) {
-        return orderRequest.getItems().stream()
-                .map(item -> {
-                    Product product = productQuery.findById(item.getProduct().getId());
-                    return OrderItem.of(item.getQuantity(), product);
-                })
-                .collect(Collectors.toList());
-    }
+	private List<OrderItem> createOrderItems(Order orderRequest) {
+		return orderRequest.getItems().stream().map(item -> {
+			Product product = productQuery.findById(item.getProduct().getId());
+			return OrderItem.of(item.getQuantity(), product);
+		}).collect(Collectors.toList());
+	}
 
-    public Order updateOrder(UUID id, Order orderRequest) {
-        Order orderPersisted = query.findById(id);
-        copyNonNullProperties(orderRequest, orderPersisted, "id", "user", "items");
-        orderPersisted.calculateTotalAmount();
-        return repository.save(orderPersisted);
-    }
+	public Order updateOrder(UUID id, Order orderRequest) {
+		Order orderPersisted = query.findById(id);
+		copyNonNullProperties(orderRequest, orderPersisted, "id", "user", "items");
+		orderPersisted.calculateTotalAmount();
+		return repository.save(orderPersisted);
+	}
 
-    public void markOrderAsPaid(Order order) {
-        order.markAsPaid();
-        repository.save(order);
-    }
+	public void markOrderAsPaid(Order order) {
+		order.markAsPaid();
+		repository.save(order);
+	}
 
 }

@@ -18,25 +18,25 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping(value = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 class OrderRestService {
 
-    private final OrderCommand command;
+	private final OrderCommand command;
 
-    private final OrderQuery query;
+	private final OrderQuery query;
 
-    @PostMapping("/users/{userId}")
-    @ResponseStatus(CREATED)
-    Order create(@PathVariable UUID userId, @Valid @RequestBody Order order) {
-        return command.create(userId, order);
-    }
+	@PostMapping("/users/{userId}")
+	@ResponseStatus(CREATED)
+	Order create(@PathVariable UUID userId, @Valid @RequestBody Order order) {
+		return command.create(userId, order);
+	}
 
-    @GetMapping("{id}")
-    @ResponseStatus(OK)
-    Order findById(@PathVariable UUID id) {
-        return query.findById(id);
-    }
+	@GetMapping("{id}")
+	@ResponseStatus(OK)
+	Order findById(@PathVariable UUID id) {
+		return query.findById(id);
+	}
 
-    @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable UUID id, @RequestBody Order orderRequest) {
-        return command.updateOrder(id, orderRequest);
-    }
+	@PutMapping("/{id}")
+	public Order updateOrder(@PathVariable UUID id, @RequestBody Order orderRequest) {
+		return command.updateOrder(id, orderRequest);
+	}
 
 }

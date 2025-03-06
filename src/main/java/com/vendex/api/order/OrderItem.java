@@ -21,33 +21,33 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 public class OrderItem {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+	@Id
+	@GeneratedValue
+	private UUID id;
 
-    private Integer quantity;
+	private Integer quantity;
 
-    @Column(name = "unit_price")
-    private BigDecimal unitPrice;
+	@Column(name = "unit_price")
+	private BigDecimal unitPrice;
 
-    private BigDecimal subtotal;
+	private BigDecimal subtotal;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "order_id")
-    private Order order;
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "order_id")
+	private Order order;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
-    private Product product;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id")
+	private Product product;
 
-    public static OrderItem of(Integer quantity, Product product) {
-        BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
-        return new OrderItem(null, quantity, product.getPrice(), subtotal, null, product);
-    }
+	public static OrderItem of(Integer quantity, Product product) {
+		BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
+		return new OrderItem(null, quantity, product.getPrice(), subtotal, null, product);
+	}
 
-    public void associateWithOrder(Order order) {
-        this.order = order;
-    }
+	public void associateWithOrder(Order order) {
+		this.order = order;
+	}
 
 }

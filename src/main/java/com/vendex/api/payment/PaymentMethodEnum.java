@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public enum PaymentMethodEnum {
 
-    CREDIT_CARD, PIX, BOLETO
+	CREDIT_CARD, PIX, BOLETO
 
 }

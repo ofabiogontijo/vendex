@@ -21,18 +21,18 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class User {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+	@Id
+	@GeneratedValue
+	private UUID id;
 
-    private String name;
+	private String name;
 
-    private String email;
+	private String email;
 
-    private String password;
+	private String password;
 
-    public static User of(User input) {
-        return new User(null, input.getName(), input.getEmail(), input.getPassword());
-    }
+	public static User of(User input) {
+		return new User(null, input.getName(), input.getEmail(), input.getPassword());
+	}
 
 }

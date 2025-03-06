@@ -27,7 +27,7 @@ public class VendexRuntimeException extends RuntimeException {
 	}
 
 	public VendexRuntimeException(MessageType messageType, List<String> notifications, Integer errorCode,
-								  boolean enableSuppression) {
+			boolean enableSuppression) {
 		super(notifications.toString(), null, enableSuppression, false);
 		this.messageType = messageType;
 		this.notifications = notifications;
@@ -35,7 +35,7 @@ public class VendexRuntimeException extends RuntimeException {
 	}
 
 	public VendexRuntimeException(MessageType messageType, List<String> notifications, Throwable cause,
-								  Integer errorCode) {
+			Integer errorCode) {
 		super(cause);
 		this.messageType = messageType;
 		this.notifications = notifications;
@@ -43,7 +43,7 @@ public class VendexRuntimeException extends RuntimeException {
 	}
 
 	public VendexRuntimeException(MessageType messageType, String description, List<String> notifications,
-								  int errorCode) {
+			int errorCode) {
 		super(new Throwable(notifications.toString()));
 		this.messageType = messageType;
 		this.notifications = notifications;

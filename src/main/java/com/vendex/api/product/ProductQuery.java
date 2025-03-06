@@ -11,13 +11,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductQuery {
 
-    private final ProductRepository repository;
+	private final ProductRepository repository;
 
-    private final VendexMessageSource messageSource;
+	private final VendexMessageSource messageSource;
 
-    public Product findById(UUID id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("product.not.found", id), true));
-    }
+	public Product findById(UUID id) {
+		return repository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(messageSource.getMessage("product.not.found", id), true));
+	}
 
 }

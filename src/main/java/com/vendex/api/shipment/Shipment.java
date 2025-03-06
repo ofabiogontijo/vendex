@@ -21,29 +21,29 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class Shipment {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+	@Id
+	@GeneratedValue
+	private UUID id;
 
-    @Column(name = "tracking_number")
-    private String trackingNumber;
+	@Column(name = "tracking_number")
+	private String trackingNumber;
 
-    private String carrier;
+	private String carrier;
 
-    @Column(name = "estimated_delivery_date")
-    private LocalDate estimatedDeliveryDate;
+	@Column(name = "estimated_delivery_date")
+	private LocalDate estimatedDeliveryDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "shipping_status")
-    private ShippingStatusEnum shippingStatus;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "shipping_status")
+	private ShippingStatusEnum shippingStatus;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", nullable = false, unique = true)
-    private Order order;
+	@OneToOne
+	@JoinColumn(name = "order_id", nullable = false, unique = true)
+	private Order order;
 
-
-    public static Shipment of(Shipment shipment, Order order) {
-        return new Shipment(null, shipment.getTrackingNumber(), shipment.getCarrier(), shipment.getEstimatedDeliveryDate(), shipment.getShippingStatus(), order);
-    }
+	public static Shipment of(Shipment shipment, Order order) {
+		return new Shipment(null, shipment.getTrackingNumber(), shipment.getCarrier(),
+				shipment.getEstimatedDeliveryDate(), shipment.getShippingStatus(), order);
+	}
 
 }

@@ -21,37 +21,38 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class Payment {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+	@Id
+	@GeneratedValue
+	private UUID id;
 
-    @Column(name = "payment_date")
-    private LocalDateTime paymentDate;
+	@Column(name = "payment_date")
+	private LocalDateTime paymentDate;
 
-    private BigDecimal amount;
+	private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatusEnum status;
+	@Enumerated(EnumType.STRING)
+	private PaymentStatusEnum status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "payment_method")
-    private PaymentMethodEnum paymentMethod;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "payment_method")
+	private PaymentMethodEnum paymentMethod;
 
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+	@OneToOne
+	@JsonIgnore
+	@JoinColumn(name = "order_id", nullable = false)
+	private Order order;
 
-    public void approve() {
-        this.status = PaymentStatusEnum.COMPLETED;
-    }
+	public void approve() {
+		this.status = PaymentStatusEnum.COMPLETED;
+	}
 
-    public void fail() {
-        this.status = PaymentStatusEnum.FAILED;
-    }
+	public void fail() {
+		this.status = PaymentStatusEnum.FAILED;
+	}
 
-    public static Payment of(LocalDateTime paymentDate, BigDecimal amount, PaymentStatusEnum status, PaymentMethodEnum paymentMethod, Order order) {
-        return new Payment(null, paymentDate, amount, status, paymentMethod, order);
-    }
+	public static Payment of(LocalDateTime paymentDate, BigDecimal amount, PaymentStatusEnum status,
+			PaymentMethodEnum paymentMethod, Order order) {
+		return new Payment(null, paymentDate, amount, status, paymentMethod, order);
+	}
 
 }

@@ -15,12 +15,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping(value = "/v1/payments", produces = MediaType.APPLICATION_JSON_VALUE)
 class PaymentRestService {
 
-    private final PaymentCommand paymentCommand;
+	private final PaymentCommand paymentCommand;
 
-    @PostMapping("/{orderId}")
-    @ResponseStatus(CREATED)
-    public PaymentDTO payOrder(@PathVariable UUID orderId, @RequestBody PaymentMethodEnum paymentMethod) {
-        return paymentCommand.processPayment(orderId, paymentMethod);
-    }
+	@PostMapping("/{orderId}")
+	@ResponseStatus(CREATED)
+	public PaymentDTO payOrder(@PathVariable UUID orderId, @RequestBody PaymentMethodEnum paymentMethod) {
+		return paymentCommand.processPayment(orderId, paymentMethod);
+	}
 
 }

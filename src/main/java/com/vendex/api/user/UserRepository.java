@@ -8,7 +8,7 @@ import java.util.UUID;
 
 interface UserRepository extends JpaRepository<User, UUID> {
 
-    @Query("FROM User where email = :email")
-    Optional<User> findByEmail(String email);
+	@Query("FROM User where email = :email")
+	Optional<User> findByEmail(String email);
 
 }

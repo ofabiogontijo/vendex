@@ -21,21 +21,22 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class Product {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+	@Id
+	@GeneratedValue
+	private UUID id;
 
-    private String name;
+	private String name;
 
-    private String description;
+	private String description;
 
-    private BigDecimal price;
+	private BigDecimal price;
 
-    @Column(name = "stock_quantity")
-    private Integer stockQuantity;
+	@Column(name = "stock_quantity")
+	private Integer stockQuantity;
 
-    public static Product of(Product product) {
-        return new Product(null, product.getName(), product.getDescription(), product.getPrice(), product.getStockQuantity());
-    }
+	public static Product of(Product product) {
+		return new Product(null, product.getName(), product.getDescription(), product.getPrice(),
+				product.getStockQuantity());
+	}
 
 }

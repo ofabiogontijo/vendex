@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,21 +15,17 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class UserQuery {
 
-    private final UserRepository repository;
+	private final UserRepository repository;
 
-    private final VendexMessageSource messageSource;
+	private final VendexMessageSource messageSource;
 
-    public Page<User> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
+	public Page<User> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
 
-    public User findById(UUID id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("user.not.found", id), true));
-    }
-
-    public Optional<User> findByEmail(String email) {
-        return repository.findByEmail(email);
-    }
+	public User findById(UUID id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("user.not.found", id), true));
+	}
 
 }

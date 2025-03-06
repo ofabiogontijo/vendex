@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ProductCommand {
 
-    private final ProductRepository repository;
+	private final ProductRepository repository;
 
-    public Product create(Product product) {
-        return repository.save(Product.of(product));
-    }
+	public Product create(Product product) {
+		return repository.save(Product.of(product));
+	}
 
 }
