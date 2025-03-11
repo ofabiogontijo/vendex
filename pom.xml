@@ -162,7 +162,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
 				<configuration>
+					<release>17</release>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
@@ -247,7 +249,6 @@
 									<excludes>
 										<exclude>com.vendex.api.core.*</exclude>
 										<exclude>com.vendex.api.system.*</exclude>
-										<exclude>com.vendex.api.order.*</exclude>
 										<exclude>com.vendex.api.payment.*</exclude>
 										<exclude>com.vendex.api.product.*</exclude>
 										<exclude>com.vendex.api.shipment.*</exclude>
