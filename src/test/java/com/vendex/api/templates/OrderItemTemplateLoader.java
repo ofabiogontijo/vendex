@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import static com.vendex.api.support.FixtureTemplates.VALID;
-import static javax.swing.UIManager.get;
 
 public class OrderItemTemplateLoader implements TemplateLoader {
 
@@ -24,6 +23,7 @@ public class OrderItemTemplateLoader implements TemplateLoader {
 				add("unitPrice", random(BigDecimal.valueOf(10.0), BigDecimal.valueOf(50.0), BigDecimal.valueOf(100.0)));
 				add("subtotal", random(BigDecimal.valueOf(10.0), BigDecimal.valueOf(50.0), BigDecimal.valueOf(100.0)));
 				add("order", null);
+				add("product", one(Product.class, VALID.name()));
 			}
 		});
 	}

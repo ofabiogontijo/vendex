@@ -4,7 +4,6 @@ import br.com.six2six.fixturefactory.Fixture;
 import com.vendex.api.product.Product;
 import com.vendex.api.product.ProductQuery;
 import com.vendex.api.support.TestSupport;
-import com.vendex.api.user.User;
 import com.vendex.api.user.UserQuery;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
